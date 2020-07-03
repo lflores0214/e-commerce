@@ -1,18 +1,18 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { selectCurrentUser } from "./redux/user/user.selector"
-
+import { selectCurrentUser } from "./redux/user/user.selector";
 
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInRegister from "./pages/signin-register/signin-register.component";
-import CheckoutPage from './pages/checkout/checkout.component'
+import CheckoutPage from "./pages/checkout/checkout.component";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
-import { createStructuredSelector} from "reselect"
+import { createStructuredSelector } from "reselect";
+import { selectCollectionsForPreview } from "./redux/shop/shop.selectors";
 
 import "./App.css";
 
