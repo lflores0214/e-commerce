@@ -12,7 +12,6 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 import { createStructuredSelector } from "reselect";
-import { selectCollectionsForPreview } from "./redux/shop/shop.selectors";
 
 import "./App.css";
 
