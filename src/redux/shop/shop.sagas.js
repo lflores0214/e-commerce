@@ -1,4 +1,4 @@
-import { takeEvery, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, all } from "redux-saga/effects";
 import ShopActionTypes from "./shop.types";
 
 import {
@@ -11,9 +11,7 @@ import {
   fetchCollectionsFailure,
 } from "./shop.actions";
 
-export function* fetchCollections() {
-  yield console.log("I am fired!");
-
+export function* fetchCollectionsAsync() {
   try {
     const collectionRef = firestore.collection("collections");
     const snapshot = yield collectionRef.get();
@@ -28,8 +26,11 @@ export function* fetchCollections() {
 }
 
 export function* fetchCollectionsStart() {
-  yield takeEvery(
+  yield takeLatest(
     ShopActionTypes.FETCH_COLLECTIONS_START,
-    fetchCollections
+    fetchCollectionsAsync
   );
+}
+export function* shopSagas() {
+  yield all([call(fetchCollectionsStart)])
 }
