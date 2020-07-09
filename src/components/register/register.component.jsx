@@ -1,13 +1,12 @@
 import React from "react";
-
+import { connect } from "react-redux";
 
 import CustomButton from "../custom-button/custom-button.component";
 
-import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
-
 import FormInput from "../form-input/form-input.component";
 
-import { RegisterContainer, RegisterTitle } from './register.styles';
+import { registerStart } from "../../redux/user/user.actions";
+import { RegisterContainer, RegisterTitle } from "./register.styles";
 
 class Register extends React.Component {
   constructor() {
@@ -21,6 +20,7 @@ class Register extends React.Component {
   }
 
   handleSubmit = async (e) => {
+    const { registerStart } = this.props;
     e.preventDefault();
 
     const { displayName, email, password, confirmPassword } = this.state;
@@ -29,25 +29,10 @@ class Register extends React.Component {
       alert("passwords don't match");
       return;
     } else {
-      try {
-        const { user } = await auth.createUserWithEmailAndPassword(
-          email,
-          password
-        );
-
-        await createUserProfileDocument(user, { displayName });
-
-        this.setState({
-          displayName: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-        });
-      } catch (error) {
-        console.log(error, "error registering user");
-      }
+      registerStart(email, password, displayName);
     }
   };
+
   handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -59,44 +44,47 @@ class Register extends React.Component {
       <RegisterContainer>
         <RegisterTitle>I do not have a account</RegisterTitle>
         <span>Sign up with your email and password</span>
-        <form className='sign-up-form' onSubmit={this.handleSubmit}>
+        <form className="sign-up-form" onSubmit={this.handleSubmit}>
           <FormInput
-            type='text'
-            name='displayName'
+            type="text"
+            name="displayName"
             value={displayName}
             onChange={this.handleChange}
-            label='Display Name'
+            label="Display Name"
             required
           />
           <FormInput
-            type='email'
-            name='email'
+            type="email"
+            name="email"
             value={email}
             onChange={this.handleChange}
-            label='Email'
+            label="Email"
             required
           />
           <FormInput
-            type='password'
-            name='password'
+            type="password"
+            name="password"
             value={password}
             onChange={this.handleChange}
-            label='Password'
+            label="Password"
             required
           />
           <FormInput
-            type='password'
-            name='confirmPassword'
+            type="password"
+            name="confirmPassword"
             value={confirmPassword}
             onChange={this.handleChange}
-            label='Confirm Password'
+            label="Confirm Password"
             required
           />
-          <CustomButton type='submit'>SIGN UP</CustomButton>
+          <CustomButton type="submit">SIGN UP</CustomButton>
         </form>
       </RegisterContainer>
     );
   }
 }
-
-export default Register;
+const mapDispatchToProps = (dispatch) => ({
+  registerStart: (email, password) =>
+    dispatch(registerStart({ email, password })),
+});
+export default connect(null, mapDispatchToProps)(Register);
