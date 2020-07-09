@@ -52,7 +52,7 @@ export function* signInWithEmail({ payload: { email, password } }) {
 export function* register({ payload: { displayName, email, password } }) {
   try {
     const { user } = yield auth.createUserWithEmailAndPassword(email, password);
-    yield put(registerSuccess({ user, additionalData: { displayName } }));
+    yield put(registerSuccess({ user, displayName }));
   } catch (error) {
     yield put(registerFailure(error));
   }
