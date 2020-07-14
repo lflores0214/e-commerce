@@ -3,6 +3,9 @@
         "signin"
     ],
     "cSpell.ignoreWords": [
+        "errored",
+        "has",
+        "has errored",
         "middlewares"
     ]
 }
